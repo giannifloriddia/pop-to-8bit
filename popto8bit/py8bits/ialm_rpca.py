@@ -1,6 +1,6 @@
 import numpy as np
 from numpy.linalg import svd, norm
-from pypropack import svdp
+from scipy.sparse.linalg import svds
 
 def ialm_RPCA(D,
               l=None,
@@ -16,7 +16,18 @@ def ialm_RPCA(D,
         Input matrix, with size (m, n).
     l : float
         lamda, will be set to 1.0 / np.sqrt(m) if not specified.
-    tol : float
+    tol : float(.venv) giannifloriddia@pop-os:~/PycharmProjects/pop-to-8bit$ pip install .
+Processing /home/giannifloriddia/PycharmProjects/pop-to-8bit
+  Installing build dependencies ... done
+  Getting requirements to build wheel ... done
+  Preparing metadata (pyproject.toml) ... done
+Requirement already satisfied: librosa in ./.venv/lib/python3.12/site-packages (from popto8bit==0.0.1) (0.11.0)
+INFO: pip is looking at multiple versions of popto8bit to determine which version is compatible with other requirements. This could take a while.
+ERROR: Could not find a version that satisfies the requirement pypropack (from popto8bit) (from versions: none)
+
+[notice] A new release of pip is available: 24.3.1 -> 25.3
+[notice] To update, run: pip install --upgrade pip
+ERROR: No matching distribution found for pypropack
         Tolerance for stopping criterion.
     max_iter : int
         Maximum number of iterations.
@@ -78,7 +89,10 @@ def ialm_RPCA(D,
         T = D - A_hat + (1. / u) * Y
         E_hat = np.maximum(T - (l / u), 0) + np.minimum(T + (l / u), 0)
         if choosvd(n, sv):
-            U, S, V = svdp(D - E_hat + (1. / u) *Y, sv, kmax=sv*kmax)
+            U, S, V = svds(D - E_hat + (1. / u) *Y, k=min(sv, min(m, n) - 1))
+            # svds returns in ascending order, reverse to descending
+            idx = np.argsort(S)[::-1]
+            U, S, V = U[:, idx], S[idx], V[idx, :]
         else:
             U, S, V = svd(D-E_hat + (1. / u) * Y, full_matrices=False)
 
