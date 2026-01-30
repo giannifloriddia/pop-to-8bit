@@ -16,18 +16,7 @@ def ialm_RPCA(D,
         Input matrix, with size (m, n).
     l : float
         lamda, will be set to 1.0 / np.sqrt(m) if not specified.
-    tol : float(.venv) giannifloriddia@pop-os:~/PycharmProjects/pop-to-8bit$ pip install .
-Processing /home/giannifloriddia/PycharmProjects/pop-to-8bit
-  Installing build dependencies ... done
-  Getting requirements to build wheel ... done
-  Preparing metadata (pyproject.toml) ... done
-Requirement already satisfied: librosa in ./.venv/lib/python3.12/site-packages (from popto8bit==0.0.1) (0.11.0)
-INFO: pip is looking at multiple versions of popto8bit to determine which version is compatible with other requirements. This could take a while.
-ERROR: Could not find a version that satisfies the requirement pypropack (from popto8bit) (from versions: none)
-
-[notice] A new release of pip is available: 24.3.1 -> 25.3
-[notice] To update, run: pip install --upgrade pip
-ERROR: No matching distribution found for pypropack
+    tol : float
         Tolerance for stopping criterion.
     max_iter : int
         Maximum number of iterations.
